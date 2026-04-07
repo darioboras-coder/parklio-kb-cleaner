@@ -10,6 +10,7 @@ Deployed on Streamlit Community Cloud. See README.md for deployment steps.
 import io
 import re
 import csv
+from datetime import date
 from pathlib import Path
 
 import streamlit as st
@@ -175,12 +176,7 @@ def build_pdf_bytes(entries, source_name: str, min_confidence: float) -> bytes:
 
     story = [
         Paragraph("Knowledge Base", title_style),
-        Paragraph(
-            f"Source: {source_name} &nbsp;&middot;&nbsp; "
-            f"{len(entries)} English entries &nbsp;&middot;&nbsp; "
-            f"confidence &ge; {int(min_confidence * 100)}%",
-            meta_style,
-        ),
+        Spacer(1, 8),
     ]
 
     for n, entry in enumerate(entries, start=1):
@@ -291,7 +287,7 @@ if uploaded is not None:
         col3.metric("Dropped (non-English)", result["dropped_non_english"])
         col4.metric("Dropped (empty)", result["dropped_empty"])
 
-        output_name = Path(uploaded.name).stem + "_filtered.pdf"
+        output_name = date.today().strftime("%d-%m-%Y") + "zohokb.pdf"
         st.download_button(
             label=f"⬇️ Download {output_name}",
             data=result["pdf_bytes"],
