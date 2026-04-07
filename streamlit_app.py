@@ -10,8 +10,13 @@ Deployed on Streamlit Community Cloud. See README.md for deployment steps.
 import io
 import re
 import csv
+import sys
 from datetime import date
 from pathlib import Path
+
+# Zoho KB articles can contain very large embedded HTML/base64 images;
+# raise the CSV field size limit so DictReader can handle them.
+csv.field_size_limit(sys.maxsize)
 
 import streamlit as st
 from bs4 import BeautifulSoup
